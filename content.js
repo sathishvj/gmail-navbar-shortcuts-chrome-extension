@@ -44,6 +44,13 @@ async function navbarUpdate() {
 
 const links = new Map([
   [
+    "compose",
+    {
+      url: "https://mail.google.com/mail/u/0/#inbox?compose=new",
+      svg: "svgs/compose.svg",
+    },
+  ],
+  [
     "inbox",
     {
       url: "https://mail.google.com/mail/u/0/#inbox",
@@ -82,14 +89,14 @@ const links = new Map([
     "gcpinsiders",
     {
       url: "https://mail.google.com/mail/u/0/#label/gcp-insiders",
-      svg: "svgs/badge.svg",
+      svg: "svgs/cloudy.svg",
     },
   ],
   [
     "googlecloudexperts",
     {
       url: "https://mail.google.com/mail/u/0/#label/google-cloud-experts",
-      svg: "svgs/lightning-cloud.svg",
+      svg: "svgs/badge.svg",
     },
   ],
 ]);
