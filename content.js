@@ -31,12 +31,14 @@ async function navbarUpdate() {
   for (let [name, link] of links) {
     const div = document.createElement("div");
     div.style.margin = "15px 25px 0px 25px";
-    if (link.svg.startsWith("svgs/")) {
-      var imgURL = chrome.runtime.getURL(link.svg);
+    let svg = svgs[name];
+    if (!svg) alert("Not found for: " + name);
+    if (svg.startsWith("svgs/")) {
+      var imgURL = chrome.runtime.getURL(svg);
       div.innerHTML = `<a href='${link.url}'><img src='${imgURL}'/></a>`;
     } else {
       // if svg code is in place.
-      div.innerHTML = `<a href='${link.url}'>${link.svg}</a>`;
+      div.innerHTML = `<a href='${link.url}'>${svg}</a>`;
     }
     navbar.appendChild(div);
   }
@@ -47,56 +49,61 @@ const links = new Map([
     "compose",
     {
       url: "https://mail.google.com/mail/u/0/#inbox?compose=new",
-      svg: "svgs/compose.svg",
     },
   ],
   [
     "inbox",
     {
       url: "https://mail.google.com/mail/u/0/#inbox",
-      svg: "svgs/inbox.svg",
     },
   ],
   [
     "starred",
     {
       url: "https://mail.google.com/mail/u/0/#starred",
-      svg: "svgs/starred.svg",
     },
   ],
   [
     "sent",
     {
       url: "https://mail.google.com/mail/u/0/#sent",
-      svg: "svgs/sent.svg",
     },
   ],
   [
-    "bin",
+    // "bin",
+    "trash",
     {
       url: "https://mail.google.com/mail/u/0/#trash",
-      svg: "svgs/trash.svg",
     },
   ],
   [
-    "all",
+    // "all",
+    "multipleMail",
     {
       url: "https://mail.google.com/mail/u/0/#all",
-      svg: "svgs/multiple-mail.svg",
     },
   ],
   [
-    "gcpinsiders",
+    "cloudy",
     {
       url: "https://mail.google.com/mail/u/0/#label/gcp-insiders",
-      svg: "svgs/cloudy.svg",
     },
   ],
   [
-    "googlecloudexperts",
+    "badge",
     {
       url: "https://mail.google.com/mail/u/0/#label/google-cloud-experts",
-      svg: "svgs/badge.svg",
     },
   ],
 ]);
+
+// const svgs = {
+//   compose: "svgs/compose.svg",
+//   inbox: "svgs/inbox.svg",
+//   starred: "svgs/starred.svg",
+//   sent: "svgs/sent.svg",
+//   trash: "svgs/trash.svg",
+//   multipleMail: "svgs/multipleMail.svg",
+//   badge: "svgs/badge.svg",
+//   cloudy: "svgs/cloudy.svg",
+// };

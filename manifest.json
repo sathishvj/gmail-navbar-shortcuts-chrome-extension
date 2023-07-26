@@ -13,7 +13,7 @@
     {
       "matches": ["https://mail.google.com/*"],
       "run_at": "document_end",
-      "js": ["content.js"]
+      "js": ["content.js", "svgs.js"]
     }
   ],
   "web_accessible_resources": [
@@ -22,5 +22,6 @@
       "matches": ["https://mail.google.com/*"],
       "use_dynamic_url": true
     }
-  ]
+  ],
+  "permissions": ["storage"]
 }
