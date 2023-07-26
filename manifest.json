@@ -18,10 +18,11 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["svgs/*.svg"],
+      "resources": [],
       "matches": ["https://mail.google.com/*"],
       "use_dynamic_url": true
     }
   ],
+  "options_page": "options.html",
   "permissions": ["storage"]
 }

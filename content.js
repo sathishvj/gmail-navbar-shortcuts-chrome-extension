@@ -15,6 +15,9 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+var margin = "15px 25px 0px 25px";
+var color = "#000000";
+
 async function navbarUpdate() {
   await sleep(2000);
 
@@ -30,7 +33,7 @@ async function navbarUpdate() {
 
   for (let [name, link] of links) {
     const div = document.createElement("div");
-    div.style.margin = "15px 25px 0px 25px";
+    div.style.margin = margin;
     let svg = svgs[name];
     if (!svg) alert("Not found for: " + name);
     if (svg.startsWith("svgs/")) {
@@ -38,6 +41,7 @@ async function navbarUpdate() {
       div.innerHTML = `<a href='${link.url}'><img src='${imgURL}'/></a>`;
     } else {
       // if svg code is in place.
+      svg = svg.replace("fill:#000000;", "fill:" + color + ";");
       div.innerHTML = `<a href='${link.url}'>${svg}</a>`;
     }
     navbar.appendChild(div);
