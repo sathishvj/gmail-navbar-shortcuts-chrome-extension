@@ -5,47 +5,17 @@
     <link rel="stylesheet" href="options.css" />
   </head>
   <body>
-    <h2>Gmail Navbar Shortcuts Option</h2>
+    <h2>Gmail Navbar Shortcuts Options</h2>
     <div class="row">
-      <label for="color">Color: </label>
-      <input
-        class="textbox"
-        type="text"
-        name="color"
-        id="color"
-        placeholder="#ffffff"
-      />
+      <label for="color">Color (leave empty for default grey): </label>
+      <input type="text" name="color" id="color" placeholder="#444746" />
     </div>
+
     <div class="row">
-      <label for="margin">Margin(top right bottom right):</label>
-      <input
-        class="textbox"
-        type="text"
-        name="margin"
-        id="margin"
-        placeholder="15px 25px 0px 25px"
-      />
+      <label for="showTitles">Show Titles</label>
+      <input type="checkbox" name="showTitles" id="showTitles" />
     </div>
-    <!--
-      <div class="row">
-        <input type="checkbox" name="checkbox2" value="2" />
-        <select name="svg_image2">
-          <option value="image4.svg">Image 4</option>
-          <option value="image5.svg">Image 5</option>
-          <option value="image6.svg">Image 6</option>
-        </select>
-        <input type="text" name="textbox2" placeholder="Textbox 2" />
-      </div>
-      <div class="row">
-        <input type="checkbox" name="checkbox3" value="3" />
-        <select name="svg_image3">
-          <option value="image7.svg">Image 7</option>
-          <option value="image8.svg">Image 8</option>
-          <option value="image9.svg">Image 9</option>
-        </select>
-        <input type="text" name="textbox3" placeholder="Textbox 3" />
-      </div>
-      -->
+
     <div class="row">
       <div id="status"></div>
       <button id="save">Save</button>

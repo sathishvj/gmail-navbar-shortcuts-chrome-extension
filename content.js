@@ -1,4 +1,5 @@
-navbarUpdate();
+// navbarUpdate();
+getOptionsAndNavbarUpdate();
 
 var getElementByXPath = function (xPath) {
   var xPathResult = document.evaluate(
@@ -15,21 +16,24 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-var color = "#444746";
-var showTitles = true;
+// var color = "#444746";
+// var showTitles = true;
 
-async function navbarUpdate() {
+async function getOptionsAndNavbarUpdate() {
   chrome.storage.sync.get(
     {
-      color: color,
-      showTitles: showTitles,
+      color: "#444746",
+      showTitles: false,
     },
     (items) => {
       color = items.color;
       showTitles = items.showTitles;
+      navbarUpdate(color, showTitles);
     }
   );
+}
 
+async function navbarUpdate(color, showTitles) {
   await sleep(2000);
 
   // alert("inside navbarUpdate");
@@ -38,14 +42,11 @@ async function navbarUpdate() {
   // alert("Navbar is: " + navbar.innerHTML);
 
   const divider = document.createElement("div");
-  // divider.style.border = "1px dashed grey";
-  // divider.height = "1px";
   divider.classList = ["divider"];
   navbar.appendChild(divider);
 
   for (let [name, link] of links) {
     const div = document.createElement("div");
-    // div.style.margin = margin;
     let svg = svgs[name];
     if (!svg) console.log("Not found for: " + name);
     if (svg.startsWith("svgs/")) {
