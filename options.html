@@ -12,15 +12,26 @@
       <button id="reset">Reset</button>
     </div>
     <div class="row">
-      <label for="color">Color (leave empty for default grey): </label>
-      <input type="text" name="color" id="color" placeholder="#444746" />
-    </div>
+      <label for="color">Color: </label>
+      <input
+        class="color-textbox"
+        type="text"
+        name="color"
+        id="color"
+        placeholder="#444746"
+      />
+      <span> | Choose from: </span>
+      <span class="box grey" id="grey-box">#444746</span>
+      <span class="box white" id="white-box">#ffffff</span>
+      <span class="box black" id="black-box">#000000</span>
+      <span>  </span>
+    </span>
 
     <div class="row">
+      <input type="checkbox" name="showTitles" id="showTitles" />
       <label for="showTitles"
         >Show Titles (unchecking titles can fit more icons)</label
       >
-      <input type="checkbox" name="showTitles" id="showTitles" />
     </div>
 
     <div class="row">

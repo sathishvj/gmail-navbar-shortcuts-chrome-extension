@@ -6,6 +6,10 @@
   width: 150px;
 }
 
+.color-textbox {
+  width: 60px;
+}
+
 .optionsBody {
   font-size: 16px;
 }
@@ -39,4 +43,30 @@
   margin-top: 10px;
   width: 100%;
   display: block;
+}
+
+.box {
+  /* float: right; */
+  height: 20px;
+  width: 40px;
+  margin: 0px 5px;
+  border: 1px solid black;
+  border-radius: 8px;
+  /* clear: both; */
+  display: inline;
+}
+
+.black {
+  background-color: black;
+  color: white;
+}
+
+.white {
+  background-color: white;
+  color: black;
+}
+
+.grey {
+  background-color: #444746;
+  color: white;
 }

@@ -96,6 +96,19 @@ const addListeners = () => {
   document.getElementById("save").addEventListener("click", saveOptions);
   document.getElementById("reset").addEventListener("click", resetOptions);
 
+  document.getElementById("grey-box").addEventListener("click", function () {
+    document.getElementById("color").value =
+      document.getElementById("grey-box").innerText;
+  });
+  document.getElementById("black-box").addEventListener("click", function () {
+    document.getElementById("color").value =
+      document.getElementById("black-box").innerText;
+  });
+  document.getElementById("white-box").addEventListener("click", function () {
+    document.getElementById("color").value =
+      document.getElementById("white-box").innerText;
+  });
+
   insertIconsOptions();
 };
 
