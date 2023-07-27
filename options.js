@@ -36,7 +36,11 @@ const saveOptions = () => {
 // stored in chrome.storage.
 const restoreOptions = () => {
   chrome.storage.sync.get(
-    { color: "#444746", showTitles: true, links: null },
+    {
+      color: defaultColor,
+      showTitles: defaultShowTitles,
+      links: JSON.stringify(Array.from(defaultLinksMap.entries())),
+    },
     (items) => {
       document.getElementById("color").value = items.color;
       document.getElementById("showTitles").checked = items.showTitles;
