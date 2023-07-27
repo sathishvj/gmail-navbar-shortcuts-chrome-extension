@@ -4,72 +4,88 @@ const saveOptions = () => {
   var showTitles = document.getElementById("showTitles").checked;
   // const likesColor = document.getElementById("like").checked;
 
-  if (!color) color = "#444746";
+  if (!color) color = defaultColor;
   // if (!showTitles) showTitles = "15px 25px 0px 25px";
 
-  chrome.storage.sync.set({ color: color, showTitles: showTitles }, () => {
-    // Update status to let user know options were saved.
-    const status = document.getElementById("status");
-    status.textContent = "Options saved.";
-    setTimeout(() => {
-      status.textContent = "";
-    }, 750);
-  });
+  var links = new Map();
+  for (let i in iconNames) {
+    var iconName = iconNames[i];
+    links.set(iconName, {
+      url: document.getElementById(iconName + "IconURL").value.trim(),
+      title: document.getElementById(iconName + "IconTitle").value.trim(),
+      show: document.getElementById(iconName + "IconShow").checked,
+    });
+  }
+  console.log("Links: ", links);
+  let linksSerialMap = JSON.stringify(Array.from(links.entries()));
+
+  chrome.storage.sync.set(
+    { color: color, showTitles: showTitles, links: linksSerialMap },
+    () => {
+      // Update status to let user know options were saved.
+      const status = document.getElementById("status");
+      status.textContent = "Options saved.";
+      setTimeout(() => {
+        status.textContent = "";
+      }, 750);
+    }
+  );
 };
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 const restoreOptions = () => {
-  chrome.storage.sync.get({ color: "#444746", showTitles: true }, (items) => {
-    document.getElementById("color").value = items.color;
-    document.getElementById("showTitles").checked = items.showTitles;
-  });
+  chrome.storage.sync.get(
+    { color: "#444746", showTitles: true, links: null },
+    (items) => {
+      document.getElementById("color").value = items.color;
+      document.getElementById("showTitles").checked = items.showTitles;
+
+      console.log("restoreOptions: ", items.links, typeof items.links);
+      // const map = new Map(Object.entries(items.links));
+      let linksMap = new Map(JSON.parse(items.links));
+
+      // if (items.links && items.links.leng) {
+      for (let [name, link] of linksMap) {
+        document.getElementById(name + "IconURL").value = link.url;
+        document.getElementById(name + "IconTitle").value = link.title;
+        document.getElementById(name + "IconShow").checked = link.show;
+      }
+    }
+  );
 };
 
 const insertIconsOptions = () => {
-  var icons = [
-    "inbox",
-    "compose",
-    "starred",
-    "sent",
-    "multipleMail",
-    "trash",
-    "setting",
-    "badge",
-    "alarm",
-    "bell",
-    "bookmark",
-    "calendar",
-    "cloudy",
-    "controls",
-    "global",
-    "graph",
-    "home",
-    "location",
-    "musicPlayer",
-    "picture",
-    "promotion",
-    "target",
-  ];
-
   const iconsContainer = document.getElementById("iconsContainer");
 
-  for (i in icons) {
-    const icon = icons[i];
+  for (i in iconNames) {
+    const icon = iconNames[i];
     const div = document.createElement("div");
     div.innerHTML = `<div class="row">
       <img src="svgs/${icon}.svg" width="25px" />
-      <input type="checkbox" name="${icon}IconCheckbox" id="${icon}IconCheckbox"/>
-      <input type="text" name="${icon}IconURL" id="${icon}IconURL" class="urlTextbox"/>
-      <input type="text" name="${icon}IconTitle" id="${icon}IconTitle" />
+      <input type="checkbox" name="${icon}IconShow" id="${icon}IconShow"/>
+      <input type="text" name="${icon}IconURL" id="${icon}IconURL" class="urlTextbox" placeholder="url like https://mail.google.com/mail/u/0/#...">
+      <input type="text" name="${icon}IconTitle" id="${icon}IconTitle" placeholder='Title'/>
     </div>
     `;
     iconsContainer.append(div);
   }
 };
 
+const resetOptions = () => {
+  document.getElementById("color").value = defaultColor;
+  document.getElementById("showTitles").checked = defaultShowTitles;
+
+  for (let [name, link] of defaultLinksMap) {
+    document.getElementById(name + "IconURL").value = link.url;
+    document.getElementById(name + "IconTitle").value = link.title;
+    document.getElementById(name + "IconShow").checked = link.show;
+  }
+};
+
 const addListeners = () => {
   document.getElementById("save").addEventListener("click", saveOptions);
+  document.getElementById("reset").addEventListener("click", resetOptions);
 
   insertIconsOptions();
 };

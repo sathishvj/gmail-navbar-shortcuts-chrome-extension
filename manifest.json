@@ -13,7 +13,7 @@
     {
       "matches": ["https://mail.google.com/*"],
       "run_at": "document_end",
-      "js": ["content.js", "svgs.js", "options.js"],
+      "js": ["vars.js", "content.js", "svgs.js", "options.js"],
       "css": ["options.css"]
     }
   ],
