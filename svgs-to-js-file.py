@@ -27,4 +27,5 @@ def to_file(folder:str, outFilename:str):
 
 
 if __name__ == '__main__':
+  # py svgs-to-js-file.py svgs svgs.js
   to_file(*sys.argv[1:])
