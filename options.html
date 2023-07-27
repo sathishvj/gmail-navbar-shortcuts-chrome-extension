@@ -7,6 +7,11 @@
   <body class="optionsBody">
     <h2>Gmail Navbar Shortcuts Options</h2>
     <div class="row">
+      <div id="status"></div>
+      <button id="save">Save</button>
+      <button id="reset">Reset</button>
+    </div>
+    <div class="row">
       <label for="color">Color (leave empty for default grey): </label>
       <input type="text" name="color" id="color" placeholder="#444746" />
     </div>
@@ -23,13 +28,13 @@
       of now. Paste in the url you want and the title. The checkbox lets you
       choose whether you want the link displayed.
     </div>
+    <div class="row">
+      Note! You need to
+      <span class="highlight-red">press the Save button</span>
+      to save changes.
+    </div>
     <div class="row" id="iconsContainer"></div>
 
-    <div class="row">
-      <div id="status"></div>
-      <button id="save">Save</button>
-      <button id="reset">Reset</button>
-    </div>
     <script src="svgs.js"></script>
     <script src="vars.js"></script>
     <script src="options.js"></script>
