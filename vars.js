@@ -83,22 +83,8 @@ const defaultLinksMap = new Map([
       show: true,
     },
   ],
-  [
-    "cloudy",
-    {
-      url: "https://mail.google.com/mail/u/0/#label/gcp-insiders",
-      title: "GCP Insiders",
-      show: true,
-    },
-  ],
-  [
-    "badge",
-    {
-      url: "https://mail.google.com/mail/u/0/#label/google-cloud-experts",
-      title: "GDE",
-      show: true,
-    },
-  ],
+  ["cloudy", { url: "", title: "", show: false }],
+  ["badge", { url: "", title: "", show: false }],
   ["alarm", { url: "", title: "", show: false }],
   ["bell", { url: "", title: "", show: false }],
   ["bookmark", { url: "", title: "", show: false }],
