@@ -13,7 +13,8 @@
     {
       "matches": ["https://mail.google.com/*"],
       "run_at": "document_end",
-      "js": ["content.js", "svgs.js"]
+      "js": ["content.js", "svgs.js", "options.js"],
+      "css": ["options.css"]
     }
   ],
   "web_accessible_resources": [
@@ -23,6 +24,9 @@
       "use_dynamic_url": true
     }
   ],
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
   "permissions": ["storage"]
 }
