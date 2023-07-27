@@ -1,23 +1,13 @@
-# Gmail shortcuts in left navbar
+# Gmail Navbar Shortcuts
 
-Adds shortcuts to gmail's left nav bar.
+Adds shortcuts to gmail's left nav bar. Customize the links to your needs.
 
-![Screenshot](screenshot.png)
-
-# Status
-
-Hard coded to suit my immediate needs.
-
-# Todo
-
-- add an options page to customize links and icons
-
-If you want to contribute, this is what I plan to have in the options page. There are a few pre-selected icons in the svgs folder that the user can choose from. Default options for inbox, starred, sent, trash, and all will pre-exist.
-![Todo Screenshot](todo-screenshot.png)
+![Navbar](screenshot.png)
+![Options](screenshot-options.png)
 
 # Manually loading the extension
 
-This is not on the chrome webstore yet. So you'll have to load it manually.
+To contribute, you can manually install it and work on it.
 
 - First you have to download the code in this repo:
   - If you have git, then: git clone https://github.com/sathishvj/gmail-navbar-shortcuts-chrome-extension
