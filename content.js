@@ -45,7 +45,7 @@ async function navbarUpdate(color, showTitles) {
   navbar.appendChild(divider);
 
   for (let [name, link] of links) {
-    if (!link || !link.url) continue;
+    if (!link || !link.url || !link.show) continue;
 
     const div = document.createElement("div");
     let svg = svgs[name];
@@ -84,6 +84,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#inbox?compose=new",
       title: "Compose",
+      show: true,
     },
   ],
   [
@@ -91,6 +92,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#inbox",
       title: "Inbox",
+      show: true,
     },
   ],
   [
@@ -98,6 +100,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#starred",
       title: "Starred",
+      show: true,
     },
   ],
   [
@@ -105,6 +108,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#sent",
       title: "Sent",
+      show: true,
     },
   ],
   [
@@ -112,6 +116,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#trash",
       title: "Trash",
+      show: true,
     },
   ],
   [
@@ -119,6 +124,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#all",
       title: "All",
+      show: true,
     },
   ],
   [
@@ -126,6 +132,7 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#label/gcp-insiders",
       title: "GCP Insiders",
+      show: true,
     },
   ],
   [
@@ -133,20 +140,21 @@ const links = new Map([
     {
       url: "https://mail.google.com/mail/u/0/#label/google-cloud-experts",
       title: "GDE",
+      show: true,
     },
   ],
-  ["alarm", { url: "", title: "" }],
-  ["bell", { url: "", title: "" }],
-  ["bookmark", { url: "", title: "" }],
-  ["calendar", { url: "", title: "" }],
-  ["controls", { url: "", title: "" }],
-  ["global", { url: "", title: "" }],
-  ["graph", { url: "", title: "" }],
-  ["home", { url: "", title: "" }],
-  ["location", { url: "", title: "" }],
-  ["musicPlayer", { url: "", title: "" }],
-  ["picture", { url: "", title: "" }],
-  ["promotion", { url: "", title: "" }],
-  ["setting", { url: "", title: "" }],
-  ["target", { url: "", title: "" }],
+  ["alarm", { url: "", title: "", show: false }],
+  ["bell", { url: "", title: "", show: false }],
+  ["bookmark", { url: "", title: "", show: false }],
+  ["calendar", { url: "", title: "", show: false }],
+  ["controls", { url: "", title: "", show: false }],
+  ["global", { url: "", title: "", show: false }],
+  ["graph", { url: "", title: "", show: false }],
+  ["home", { url: "", title: "", show: false }],
+  ["location", { url: "", title: "", show: false }],
+  ["musicPlayer", { url: "", title: "", show: false }],
+  ["picture", { url: "", title: "", show: false }],
+  ["promotion", { url: "", title: "", show: false }],
+  ["setting", { url: "", title: "", show: false }],
+  ["target", { url: "", title: "", show: false }],
 ]);
