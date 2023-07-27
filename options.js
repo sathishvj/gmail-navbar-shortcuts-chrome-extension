@@ -65,8 +65,13 @@ const insertIconsOptions = () => {
   for (i in iconNames) {
     const icon = iconNames[i];
     const div = document.createElement("div");
+    let svgData = svgs[icon];
+
+    svgData = svgData.replace("fill:#000000;", "fill:" + defaultColor);
+    svgData = svgData.replace("<svg ", "<svg width='20px' ");
+    // <img src="svgs/${icon}.svg" width="25px" />
     div.innerHTML = `<div class="row">
-      <img src="svgs/${icon}.svg" width="25px" />
+      ${svgData}
       <input type="checkbox" name="${icon}IconShow" id="${icon}IconShow"/>
       <input type="text" name="${icon}IconURL" id="${icon}IconURL" class="urlTextbox" placeholder="url like https://mail.google.com/mail/u/0/#...">
       <input type="text" name="${icon}IconTitle" id="${icon}IconTitle" placeholder='Title'/>
