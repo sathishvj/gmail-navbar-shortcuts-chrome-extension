@@ -1,4 +1,3 @@
-// navbarUpdate();
 getOptionsAndNavbarUpdate();
 
 var getElementByXPath = function (xPath) {
@@ -46,6 +45,8 @@ async function navbarUpdate(color, showTitles) {
   navbar.appendChild(divider);
 
   for (let [name, link] of links) {
+    if (!link || !link.url) continue;
+
     const div = document.createElement("div");
     let svg = svgs[name];
     if (!svg) console.log("Not found for: " + name);
@@ -60,7 +61,7 @@ async function navbarUpdate(color, showTitles) {
         <a href='${link.url}'>${svg} </a>
       </div>`;
 
-      if (showTitles) {
+      if (showTitles && link.title.trim() != "") {
         s += `
       <div class='title-wrapper'>
         <a href='${link.url}' style='text-decoration:none;'>
@@ -107,7 +108,6 @@ const links = new Map([
     },
   ],
   [
-    // "bin",
     "trash",
     {
       url: "https://mail.google.com/mail/u/0/#trash",
@@ -135,4 +135,18 @@ const links = new Map([
       title: "GDE",
     },
   ],
+  ["alarm", { url: "", title: "" }],
+  ["bell", { url: "", title: "" }],
+  ["bookmark", { url: "", title: "" }],
+  ["calendar", { url: "", title: "" }],
+  ["controls", { url: "", title: "" }],
+  ["global", { url: "", title: "" }],
+  ["graph", { url: "", title: "" }],
+  ["home", { url: "", title: "" }],
+  ["location", { url: "", title: "" }],
+  ["musicPlayer", { url: "", title: "" }],
+  ["picture", { url: "", title: "" }],
+  ["promotion", { url: "", title: "" }],
+  ["setting", { url: "", title: "" }],
+  ["target", { url: "", title: "" }],
 ]);
