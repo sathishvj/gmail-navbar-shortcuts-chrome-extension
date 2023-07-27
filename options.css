@@ -6,6 +6,14 @@
   width: 150px;
 }
 
+.urlTextbox {
+  width: 250px;
+}
+
+.titleTextbox {
+  width: 100px;
+}
+
 .link-wrapper {
   margin-top: 5px;
   text-align: center;

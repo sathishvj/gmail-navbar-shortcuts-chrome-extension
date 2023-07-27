@@ -26,8 +26,52 @@ const restoreOptions = () => {
   });
 };
 
+const insertIconsOptions = () => {
+  var icons = [
+    "inbox",
+    "compose",
+    "starred",
+    "sent",
+    "multipleMail",
+    "trash",
+    "setting",
+    "badge",
+    "alarm",
+    "bell",
+    "bookmark",
+    "calendar",
+    "cloudy",
+    "controls",
+    "global",
+    "graph",
+    "home",
+    "location",
+    "musicPlayer",
+    "picture",
+    "promotion",
+    "target",
+  ];
+
+  const iconsContainer = document.getElementById("iconsContainer");
+
+  for (i in icons) {
+    const icon = icons[i];
+    const div = document.createElement("div");
+    div.innerHTML = `<div class="row">
+      <img src="svgs/${icon}.svg" width="25px" />
+      <input type="checkbox" name="${icon}IconCheckbox" id="${icon}IconCheckbox"/>
+      <input type="text" name="${icon}IconURL" id="${icon}IconURL" class="urlTextbox"/>
+      <input type="text" name="${icon}IconTitle" id="${icon}IconTitle" />
+    </div>
+    `;
+    iconsContainer.append(div);
+  }
+};
+
 const addListeners = () => {
   document.getElementById("save").addEventListener("click", saveOptions);
+
+  insertIconsOptions();
 };
 
 document.addEventListener("DOMContentLoaded", restoreOptions);
