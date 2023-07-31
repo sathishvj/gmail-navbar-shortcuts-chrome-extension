@@ -1,9 +1,9 @@
 # Gmail Navbar Shortcuts
 
-Adds shortcuts to gmail's left nav bar. Customize the links to your needs.
+Adds shortcuts to Gmail's left nav bar. Customize the links to your needs.
 
-![Navbar](screenshot.png)
-![Options](screenshot-options.png)
+<img src="screenshot.png" width="60%">
+<img src="screenshot-options.png" width="60%">
 
 # Todos and Ideas
 
