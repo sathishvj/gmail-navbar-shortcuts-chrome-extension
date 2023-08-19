@@ -38,7 +38,8 @@ async function navbarUpdate(color, showTitles, links) {
   await sleep(2000);
 
   // alert("inside navbarUpdate");
-  const navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
+  // const navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
+  const navbarXPath = "/html/body/div[8]/div[3]/div/div[2]/div[1]";
   var navbar = getElementByXPath(navbarXPath);
   // alert("Navbar is: " + navbar.innerHTML);
 
