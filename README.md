@@ -13,6 +13,7 @@ If you can contribute, here are some ideas:
 - Detect changes in options and prompt to save.
 - Enable Save button in Options only if there are changes.
 - Rename "Reset" button to "Fill with Defaults".
+- Export and import configuration.
 
 # Manually loading the extension
 
