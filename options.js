@@ -1,3 +1,46 @@
+observeOptionsDOMChanges();
+
+function observeOptionsDOMChanges() {
+	console.log("gmail-nabvar-options: observeDOMChanges");
+
+// Observe changes in the DOM
+	let observer = new MutationObserver(mutations => {
+	  // Check if the DOM is fully loaded
+	  if (document.readyState === 'complete') {
+		runOnOptionsDomComplete();
+		// Disconnect the observer once the DOM is complete
+		observer.disconnect();
+	  }
+	});
+
+	// Start observing the DOM for changes
+	observer.observe(document.documentElement, {
+	  childList: true,
+	  subtree: true
+	});
+
+	// Run once when the document is initially loaded
+	if (document.readyState === 'complete') {
+	  runOnOptionsDomComplete();
+	} else {
+	  window.addEventListener('load', runOnOptionsDomComplete);
+	}
+
+}
+
+	// Function to execute when DOM is changed and complete
+var alreadyRunOptions = false;
+function runOnOptionsDomComplete() {
+
+   if (alreadyRunOptions === true) return;
+  // Your code here
+  console.log("gmail-navbar-options: DOM is fully loaded and changed!");
+
+  alreadyRunOptions = true;
+  addEventListeners();
+}
+
+
 // Saves options to chrome.storage
 const saveOptions = () => {
   var color = document.getElementById("color").value;
@@ -112,5 +155,9 @@ const addListeners = () => {
   insertIconsOptions();
 };
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
-document.addEventListener("DOMContentLoaded", addListeners);
+function addEventListeners() {
+	document.addEventListener("DOMContentLoaded", restoreOptions);
+	document.addEventListener("DOMContentLoaded", addListeners);
+}
+
+

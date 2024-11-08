@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Gmail Navbar Shortcuts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Adds shortcuts to gmail's left navbar.",
   "icons": {
     "16": "images/icon-16.png",
@@ -12,7 +12,7 @@
   "content_scripts": [
     {
       "matches": ["https://mail.google.com/*"],
-      "run_at": "document_end",
+      "run_at": "document_start",
       "js": ["vars.js", "content.js", "svgs.js", "options.js"],
       "css": ["options.css"]
     }

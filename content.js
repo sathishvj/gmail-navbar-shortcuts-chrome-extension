@@ -1,4 +1,42 @@
-getOptionsAndNavbarUpdate();
+observeDOMChanges();
+
+function observeDOMChanges() {
+  console.log("gmail-nabvar: observeDOMChanges");
+
+  // Observe changes in the DOM
+  let observer = new MutationObserver((mutations) => {
+    // Check if the DOM is fully loaded
+    if (document.readyState === "complete") {
+      runOnDomComplete();
+      // Disconnect the observer once the DOM is complete
+      observer.disconnect();
+    }
+  });
+
+  // Start observing the DOM for changes
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+
+  // Run once when the document is initially loaded
+  if (document.readyState === "complete") {
+    runOnDomComplete();
+  } else {
+    window.addEventListener("load", runOnDomComplete);
+  }
+}
+
+// Function to execute when DOM is changed and complete
+var alreadyRun = false;
+function runOnDomComplete() {
+  if (alreadyRun === true) return;
+  // Your code here
+  console.log("gmail-navbar: DOM is fully loaded and changed!");
+
+  alreadyRun = true;
+  getOptionsAndNavbarUpdate();
+}
 
 var getElementByXPath = function (xPath) {
   var xPathResult = document.evaluate(
@@ -15,10 +53,9 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// var color = "#444746";
-// var showTitles = true;
-
 async function getOptionsAndNavbarUpdate() {
+  // alert("inside getOptionsAndNavbarUpdate");
+
   chrome.storage.sync.get(
     {
       color: defaultColor,
@@ -34,14 +71,98 @@ async function getOptionsAndNavbarUpdate() {
   );
 }
 
+function getNavbar() {
+  let navbar = undefined;
+  let navbarXPath = "";
+
+  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[2]";
+  navbar = getElementByXPath(navbarXPath);
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[1]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[3]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[1]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "/html/body/div[8]/div[3]/div/div[2]/div[1]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "/html/body/div[6]/div[3]/div/div[2]/div[1]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  navbarXPath = "/html/body/div[9]/div[3]/div/div[2]/div[1]";
+  navbar = getElementByXPath(navbarXPath);
+
+  if (navbar) {
+    console.log("gmail-navbar: worked with: " + navbarXPath);
+    return navbar;
+  }
+
+  console.log("gmail-navbar: could not find navbar.");
+  return undefined;
+}
+
 async function navbarUpdate(color, showTitles, links) {
-  await sleep(2000);
+  //await sleep(5000);
 
   // alert("inside navbarUpdate");
   // const navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
-  const navbarXPath = "/html/body/div[8]/div[3]/div/div[2]/div[1]";
-  var navbar = getElementByXPath(navbarXPath);
+  // const navbarXPath = "/html/body/div[8]/div[3]/div/div[2]/div[1]";
+  // const navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
+  // const navbarXPath = "//div[@title='Mail']/ancestor::div[2]";
+  // const navbarXPath = "//*[text()='Chat']/ancestor::div[2]";
+  // var navbar = getElementByXPath(navbarXPath);
   // alert("Navbar is: " + navbar.innerHTML);
+
+  const navbar = getNavbar();
+  if (!navbar) {
+    console.log("gmail-navbar:Navbar not found");
+    return;
+  }
+
+  console.log("gmail-navbar: navbar is: " + navbar);
+
+  console.log("gmail-navbar: navbar is: " + navbar.innerHTML);
 
   const divider = document.createElement("div");
   divider.classList = ["divider"];
