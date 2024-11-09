@@ -50,6 +50,7 @@
   height: 20px;
   width: 40px;
   margin: 0px 5px;
+  padding: 2px 7px 2px 7px;
   border: 1px solid black;
   border-radius: 8px;
   /* clear: both; */
@@ -58,15 +59,15 @@
 
 .black {
   background-color: black;
-  color: white;
+  color: grey;
 }
 
 .white {
   background-color: white;
-  color: black;
+  color: grey;
 }
 
 .grey {
   background-color: #444746;
-  color: white;
+  color: grey;
 }

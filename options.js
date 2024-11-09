@@ -1,48 +1,32 @@
-observeOptionsDOMChanges();
+const gnoLoc = "gmail-navbar-options";
 
-function observeOptionsDOMChanges() {
-	console.log("gmail-nabvar-options: observeDOMChanges");
+// function sleep(ms) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
-// Observe changes in the DOM
-	let observer = new MutationObserver(mutations => {
-	  // Check if the DOM is fully loaded
-	  if (document.readyState === 'complete') {
-		runOnOptionsDomComplete();
-		// Disconnect the observer once the DOM is complete
-		observer.disconnect();
-	  }
-	});
+// Option 3: Create a helper function for deferred execution
+function waitForElement(selector) {
+  return new Promise((resolve) => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
 
-	// Start observing the DOM for changes
-	observer.observe(document.documentElement, {
-	  childList: true,
-	  subtree: true
-	});
+    const observer = new MutationObserver((mutations) => {
+      if (document.querySelector(selector)) {
+        observer.disconnect();
+        resolve(document.querySelector(selector));
+      }
+    });
 
-	// Run once when the document is initially loaded
-	if (document.readyState === 'complete') {
-	  runOnOptionsDomComplete();
-	} else {
-	  window.addEventListener('load', runOnOptionsDomComplete);
-	}
-
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+  });
 }
-
-	// Function to execute when DOM is changed and complete
-var alreadyRunOptions = false;
-function runOnOptionsDomComplete() {
-
-   if (alreadyRunOptions === true) return;
-  // Your code here
-  console.log("gmail-navbar-options: DOM is fully loaded and changed!");
-
-  alreadyRunOptions = true;
-  addEventListeners();
-}
-
 
 // Saves options to chrome.storage
-const saveOptions = () => {
+function saveOptions() {
   var color = document.getElementById("color").value;
   var showTitles = document.getElementById("showTitles").checked;
   // const likesColor = document.getElementById("like").checked;
@@ -59,7 +43,7 @@ const saveOptions = () => {
       show: document.getElementById(iconName + "IconShow").checked,
     });
   }
-  console.log("Links: ", links);
+  console.log(gnoLoc, "Links: ", links);
   let linksSerialMap = JSON.stringify(Array.from(links.entries()));
 
   chrome.storage.sync.set(
@@ -73,11 +57,11 @@ const saveOptions = () => {
       }, 750);
     }
   );
-};
+}
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
-const restoreOptions = () => {
+function restoreOptions() {
   chrome.storage.sync.get(
     {
       color: defaultColor,
@@ -86,9 +70,10 @@ const restoreOptions = () => {
     },
     (items) => {
       document.getElementById("color").value = items.color;
+      setColorBoxBackgroundColor();
       document.getElementById("showTitles").checked = items.showTitles;
 
-      console.log("restoreOptions: ", items.links, typeof items.links);
+      console.log(gnoLoc, "restoreOptions: ", items.links, typeof items.links);
       // const map = new Map(Object.entries(items.links));
       let linksMap = new Map(JSON.parse(items.links));
 
@@ -100,10 +85,10 @@ const restoreOptions = () => {
       }
     }
   );
-};
+}
 
-const insertIconsOptions = () => {
-  const iconsContainer = document.getElementById("iconsContainer");
+function insertIconsOptions() {
+  var iconsSubContainer = document.createElement("div");
 
   for (i in iconNames) {
     const icon = iconNames[i];
@@ -120,11 +105,22 @@ const insertIconsOptions = () => {
       <input type="text" name="${icon}IconTitle" id="${icon}IconTitle" placeholder='Title'/>
     </div>
     `;
-    iconsContainer.append(div);
-  }
-};
 
-const resetOptions = () => {
+    iconsSubContainer.append(div);
+  }
+
+  // timing hack that I'm not able to fix right now
+  waitForElement("#iconsContainer")
+    .then((element) => {
+      //   const iconsContainer = document.getElementById("iconsContainer");
+      element.append(iconsSubContainer);
+    })
+    .catch((error) => {
+      console.error("Error appending to element iconsContainer:", error);
+    });
+}
+
+function resetOptions() {
   document.getElementById("color").value = defaultColor;
   document.getElementById("showTitles").checked = defaultShowTitles;
 
@@ -133,31 +129,76 @@ const resetOptions = () => {
     document.getElementById(name + "IconTitle").value = link.title;
     document.getElementById(name + "IconShow").checked = link.show;
   }
-};
-
-const addListeners = () => {
-  document.getElementById("save").addEventListener("click", saveOptions);
-  document.getElementById("reset").addEventListener("click", resetOptions);
-
-  document.getElementById("grey-box").addEventListener("click", function () {
-    document.getElementById("color").value =
-      document.getElementById("grey-box").innerText;
-  });
-  document.getElementById("black-box").addEventListener("click", function () {
-    document.getElementById("color").value =
-      document.getElementById("black-box").innerText;
-  });
-  document.getElementById("white-box").addEventListener("click", function () {
-    document.getElementById("color").value =
-      document.getElementById("white-box").innerText;
-  });
-
-  insertIconsOptions();
-};
-
-function addEventListeners() {
-	document.addEventListener("DOMContentLoaded", restoreOptions);
-	document.addEventListener("DOMContentLoaded", addListeners);
 }
 
+function addListeners() {
+  const elements = [
+    { selector: "#save", event: "click", handler: saveOptions },
+    { selector: "#reset", event: "click", handler: resetOptions },
+    {
+      selector: "#grey-box",
+      event: "click",
+      handler: () => setColor("#444746"),
+    },
+    {
+      selector: "#black-box",
+      event: "click",
+      handler: () => setColor("#000000"),
+    },
+    {
+      selector: "#white-box",
+      event: "click",
+      handler: () => setColor("#ffffff"),
+    },
+    {
+      selector: "#color",
+      event: "change",
+      handler: () => setColorBoxBackgroundColor(),
+    },
+  ];
 
+  elements.forEach(({ selector, event, handler }) => {
+    waitForElement(selector)
+      .then((element) => {
+        element.addEventListener(event, handler);
+      })
+      .catch((error) => {
+        console.error(`Error appending to element ${selector}:`, error);
+      });
+  });
+}
+
+function setColor(color) {
+  waitForElement("#color").then((element) => {
+    element.value = color;
+    setColorBoxBackgroundColor();
+  });
+}
+
+function setColorBoxBackgroundColor() {
+  waitForElement("#color").then((element) => {
+    console.log(gnoLoc, "color.value: ", element.value);
+    element.style.backgroundColor = element.value;
+  });
+}
+
+function createElements() {
+  insertIconsOptions();
+  restoreOptions();
+  addListeners();
+}
+
+// var alreadyRunOptions = false;
+// function runOnOptionsDomComplete() {
+//   if (alreadyRunOptions === true) return;
+//   alreadyRunOptions = true;
+//   addEventListeners();
+// }
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log(gnoLoc, "DOMContentLoaded");
+
+  // console.log("gmail-navbar-options: DOM is fully loaded!");
+  //   runOnOptionsDomComplete();
+  createElements();
+});

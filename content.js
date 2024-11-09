@@ -72,121 +72,54 @@ async function getOptionsAndNavbarUpdate() {
 }
 
 function getNavbar() {
-  let navbar = undefined;
-  let navbarXPath = "";
+  const xPaths = [
+    "//*[normalize-space(.) = 'Mail']/ancestor::div[2]",
+    "//*[normalize-space(.) = 'Mail']/ancestor::div[1]",
+    "//*[normalize-space(.) = 'Mail']/ancestor::div[3]",
+    "/html/body/div[7]/div[3]/div/div[2]/div[1]",
+    "/html/body/div[8]/div[3]/div/div[2]/div[1]",
+    "/html/body/div[6]/div[3]/div/div[2]/div[1]",
+    "/html/body/div[9]/div[3]/div/div[2]/div[1]",
+  ];
 
-  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[2]";
-  navbar = getElementByXPath(navbarXPath);
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[1]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[3]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "//*[normalize-space(.) = 'Mail']/ancestor::div[1]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "/html/body/div[8]/div[3]/div/div[2]/div[1]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "/html/body/div[6]/div[3]/div/div[2]/div[1]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
-  }
-
-  navbarXPath = "/html/body/div[9]/div[3]/div/div[2]/div[1]";
-  navbar = getElementByXPath(navbarXPath);
-
-  if (navbar) {
-    console.log("gmail-navbar: worked with: " + navbarXPath);
-    return navbar;
+  for (let xpath of xPaths) {
+    let navbar = getElementByXPath(xpath);
+    if (navbar) {
+      console.log("gmail-navbar: worked with: " + xpath);
+      return navbar;
+    }
   }
 
   console.log("gmail-navbar: could not find navbar.");
   return undefined;
 }
 
-async function navbarUpdate(color, showTitles, links) {
-  //await sleep(5000);
+function createDivider() {
+  const divider = document.createElement("div");
+  divider.classList.add("divider");
+  return divider;
+}
 
-  // alert("inside navbarUpdate");
-  // const navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
-  // const navbarXPath = "/html/body/div[8]/div[3]/div/div[2]/div[1]";
-  // const navbarXPath = "/html/body/div[7]/div[3]/div/div[2]/div[1]";
-  // const navbarXPath = "//div[@title='Mail']/ancestor::div[2]";
-  // const navbarXPath = "//*[text()='Chat']/ancestor::div[2]";
-  // var navbar = getElementByXPath(navbarXPath);
-  // alert("Navbar is: " + navbar.innerHTML);
-
-  const navbar = getNavbar();
-  if (!navbar) {
-    console.log("gmail-navbar:Navbar not found");
-    return;
+function createLinkElement(name, link, color, showTitles) {
+  const div = document.createElement("div");
+  let svg = svgs[name];
+  if (!svg) {
+    console.log("Not found for: " + name);
+    return null;
   }
 
-  console.log("gmail-navbar: navbar is: " + navbar);
-
-  console.log("gmail-navbar: navbar is: " + navbar.innerHTML);
-
-  const divider = document.createElement("div");
-  divider.classList = ["divider"];
-  navbar.appendChild(divider);
-
-  for (let [name, link] of links) {
-    if (!link || !link.url || !link.show) continue;
-
-    const div = document.createElement("div");
-    let svg = svgs[name];
-    if (!svg) console.log("Not found for: " + name);
-    if (svg.startsWith("svgs/")) {
-      // this is not being used any more
-      var imgURL = chrome.runtime.getURL(svg);
-      div.innerHTML = `<a href='${link.url}'><img src='${imgURL}'/></a>`;
-    } else {
-      svg = svg.replace("fill:#000000;", "fill:" + color);
-      let s = `
+  if (svg.startsWith("svgs/")) {
+    const imgURL = chrome.runtime.getURL(svg);
+    div.innerHTML = `<a href='${link.url}'><img src='${imgURL}'/></a>`;
+  } else {
+    svg = svg.replace("fill:#000000;", `fill:${color}`);
+    let s = `
       <div class='icon-wrapper'>
-        <a href='${link.url}'>${svg} </a>
+        <a href='${link.url}'>${svg}</a>
       </div>`;
 
-      if (showTitles && link.title.trim() != "") {
-        s += `
+    if (showTitles && link.title.trim() !== "") {
+      s += `
       <div class='title-wrapper'>
         <a href='${link.url}' style='text-decoration:none;'>
           <span style='font-size:12px;color:${color};'>
@@ -194,10 +127,32 @@ async function navbarUpdate(color, showTitles, links) {
           </span>
         </a>
       </div>`;
-      }
-      div.innerHTML = s;
-      div.classList = ["link-wrapper"];
     }
-    navbar.appendChild(div);
+    div.innerHTML = s;
+    div.classList.add("link-wrapper");
+  }
+
+  return div;
+}
+
+async function navbarUpdate(color, showTitles, links) {
+  const navbar = getNavbar();
+  if (!navbar) {
+    console.log("gmail-navbar: Navbar not found");
+    return;
+  }
+
+  console.log("gmail-navbar: navbar is: ", navbar);
+  console.log("gmail-navbar: navbar innerHTML: ", navbar.innerHTML);
+
+  navbar.appendChild(createDivider());
+
+  for (let [name, link] of links) {
+    if (!link || !link.url || !link.show) continue;
+
+    const linkElement = createLinkElement(name, link, color, showTitles);
+    if (linkElement) {
+      navbar.appendChild(linkElement);
+    }
   }
 }
